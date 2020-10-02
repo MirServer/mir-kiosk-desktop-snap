@@ -1,0 +1,24 @@
+#!/bin/sh
+set -x
+
+mkdir -p ${XDG_RUNTIME_DIR}
+
+if snapctl is-connected wayland
+then
+  real_wayland=$(dirname "${XDG_RUNTIME_DIR}")/${WAYLAND_DISPLAY:-wayland-0}
+
+  if [ -O "${real_wayland}" ]
+  then
+    ln -sf "${real_wayland}" "${XDG_RUNTIME_DIR}"
+    export MIR_SERVER_WAYLAND_HOST=${WAYLAND_DISPLAY:-wayland-0}
+    unset WAYLAND_DISPLAY
+  fi
+fi
+
+if [ ! -z "${MIR_SERVER_WAYLAND_HOST}" ] && ! (snapctl is-connected login-session-control && snapctl is-connected hardware-observe)
+then
+  echo "You need one (or more) of the following:"
+  echo "  1. to connect the login-session-control and hardware-observe plugs"
+  echo "  2. to connect the wayland plug and run a Wayland compositor"
+  exit 1
+fi

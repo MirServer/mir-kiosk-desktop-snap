@@ -1,0 +1,14 @@
+#!/bin/bash
+set -e
+set -x
+
+real_xdg_runtime_dir=$(dirname "${XDG_RUNTIME_DIR}")
+
+while [ ! -O "${real_xdg_runtime_dir}" ]
+do
+  inotifywait --event create $(dirname "${real_xdg_runtime_dir}")
+done
+
+for hack in $(find "${SNAP}/hacks" -name setup-\*); do . "$hack"; done
+
+exec "$@"

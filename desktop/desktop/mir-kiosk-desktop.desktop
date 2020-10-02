@@ -1,0 +1,5 @@
+[Desktop Entry]
+Name=Example (glxgears) X11 kiosk (confined)
+Comment=Example (glxgears) X11 kiosk, using mir-kiosk-x11
+Exec=${SNAPCRAFT_PROJECT_NAME}
+Type=Application
