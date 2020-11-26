@@ -1,6 +1,6 @@
 name: mir-kiosk-desktop
-summary: Boilerplate for using mir_kiosk_x11
-description: Boilerplate for using mir_kiosk_x11 (for use as a "stage-snap")
+summary: Boilerplate for using mir_kiosk_x11 for a desktop session
+description: Boilerplate for using mir_kiosk_x11 for a desktop session (for use as a "stage-snap")
 base: core20
 confinement: strict
 grade: stable
@@ -53,22 +53,3 @@ parts:
     override-build: |
       snapcraftctl build
       sed s/\$\{SNAPCRAFT_ARCH_TRIPLET}/${SNAPCRAFT_ARCH_TRIPLET}/g --in-place $SNAPCRAFT_PART_INSTALL/hacks/*
-
-layout:
-  /usr/share/X11:
-    bind: $SNAP/usr/share/X11
-  /usr/bin/xkbcomp:
-    symlink: $SNAP/usr/bin/xkbcomp
-  /usr/share/icons:
-    bind: $SNAP/usr/share/icons
-  /usr/share/fonts:
-    bind: $SNAP/usr/share/fonts
-  /etc/fonts:
-    bind: $SNAP/etc/fonts
-
-plugs:
-  opengl:         # For Mir
-  wayland:        # For Mir
-  network-bind:   # For Mir (to serve X11)
-  login-session-control: # To start a desktop session
-  hardware-observe: # To start a desktop session
